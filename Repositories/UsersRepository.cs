@@ -26,27 +26,45 @@ namespace LibraryAPI.Repositories {
 
         public void Insert(UsersDTO dto) {
             _conn.Execute(@"
-                INSERT INTO Users (name, login, password, email, role, observations, active, register)
-                VALUES (@name, @login, @password, @email, @role, @observations, @active, GETDATE())", dto
+                INSERT INTO Users (name, login, password, email, role, observations, active, register, profile)
+                VALUES (@name, @login, @password, @email, @role, @observations, @active, GETDATE(), @profile)", dto
             );
         }
 
         public void Update(UsersDTO dto) {
-            _conn.Execute(@"
+            if (!string.IsNullOrWhiteSpace(dto.password) && !(dto.profile != null)) {
+                _conn.Execute(@"
+                    UPDATE 
+                        Users
+                    SET 
+                        name = @name, 
+                        login = @login, 
+                        password = @password, 
+                        email = @email, 
+                        role = @role, 
+                        observations = @observations, 
+                        active = @active,
+                        edit = GETDATE(),
+                        profile = @profile
+                    WHERE 
+                        id = @id", dto
+                );
+            } else {
+                _conn.Execute(@"
                 UPDATE 
                     Users
                 SET 
                     name = @name, 
-                    login = @login, 
-                    password = @password, 
+                    login = @login,
                     email = @email, 
                     role = @role, 
                     observations = @observations, 
                     active = @active,
-                    edit = GETDATE()
+                    edit = GETDATE(),
                 WHERE 
                     id = @id", dto
-            );
+                );
+            }
         }
 
         public void Delete(int id) {
@@ -54,7 +72,7 @@ namespace LibraryAPI.Repositories {
         }
 
         public UsersDTO? Login(string login, string password) {
-            var passwordHash = HashHelper.GerarSha256(password);
+            var passwordHash = HashHelper.CreateSha256(password);
 
             return _conn.QueryFirstOrDefault<UsersDTO>(
                 @"SELECT * FROM Users WHERE (login = @login OR email = @login) AND password = @passwordHash",
