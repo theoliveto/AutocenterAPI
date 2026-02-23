@@ -1,11 +1,12 @@
-using System.Text;
+using FluentMigrator.Runner;
 using LibraryAPI.Data;
 using LibraryAPI.Interfaces;
-using FluentMigrator.Runner;
 using LibraryAPI.Repositories;
+using LibraryAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services
 
 builder.Services.AddScoped<Connection>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
