@@ -1,14 +1,14 @@
-﻿using LibraryAPI.DTOs;
-using LibraryAPI.Helpers;
-using LibraryAPI.Interfaces;
-using LibraryAPI.Repositories;
-using LibraryAPI.DTOs.Requests;
+﻿using AutocenterAPI.DTOs;
+using AutocenterAPI.Helpers;
+using AutocenterAPI.Interfaces;
+using AutocenterAPI.Repositories;
+using AutocenterAPI.DTOs.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using LibraryAPI.DTOs.Responses;
+using AutocenterAPI.DTOs.Responses;
 using Microsoft.AspNetCore.Authorization;
 
-namespace LibraryAPI.Controllers {
+namespace AutocenterAPI.Controllers {
     [Authorize]
     [ApiController]
     [Route("api/users")]

@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.DTOs.Auth {
+﻿namespace AutocenterAPI.DTOs.Auth {
     public class ForgotPasswordRequestDTO {
         public string Email { get; set; } = string.Empty;
     }

@@ -1,8 +1,8 @@
-﻿using LibraryAPI.Interfaces;
+﻿using AutocenterAPI.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace LibraryAPI.Services {
+namespace AutocenterAPI.Services {
     public class SmtpEmailService : IEmailService {
         private readonly IConfiguration _config;
         public SmtpEmailService(IConfiguration config) => _config = config;

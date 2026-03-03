@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.DTOs.Requests {
+﻿namespace AutocenterAPI.DTOs.Requests {
     public class UsersRequest {
         public string name { get; set; } = string.Empty;
         public string login { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.DTOs.Responses {
+﻿namespace AutocenterAPI.DTOs.Responses {
     public class UsersResponse {
         public int id { get; set; }
         public string name { get; set; } = string.Empty;

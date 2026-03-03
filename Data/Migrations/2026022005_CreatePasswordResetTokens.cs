@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace LibraryAPI.Data.Migrations {
+namespace AutocenterAPI.Data.Migrations {
     [Migration(2026022005)]
     public class _2026022005_CreatePasswordResetTokens : Migration {
         public override void Up() {

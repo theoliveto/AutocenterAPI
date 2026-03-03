@@ -1,11 +1,11 @@
 ﻿using Dapper;
-using LibraryAPI.Data;
-using LibraryAPI.DTOs;
-using LibraryAPI.Helpers;
-using LibraryAPI.Interfaces;
 using System.Data;
+using AutocenterAPI.Data;
+using AutocenterAPI.DTOs;
+using AutocenterAPI.Helpers;
+using AutocenterAPI.Interfaces;
 
-namespace LibraryAPI.Repositories {
+namespace AutocenterAPI.Repositories {
     public class UsersRepository : IUsersRepository {
         private readonly IDbConnection _conn;
 
@@ -26,8 +26,8 @@ namespace LibraryAPI.Repositories {
 
         public void Insert(UsersDTO dto) {
             _conn.Execute(@"
-                INSERT INTO Users (name, login, password, email, role, observations, active, register, profile)
-                VALUES (@name, @login, @password, @email, @role, @observations, @active, GETDATE(), @profile)", dto
+                INSERT INTO Users (name, login, password, email, role, observations, active, register, profile, googleSub)
+                VALUES (@name, @login, @password, @email, @role, @observations, @active, GETDATE(), @profile, @googleSub)", dto
             );
         }
 
@@ -127,7 +127,7 @@ namespace LibraryAPI.Repositories {
 
         public UsersDTO? GetByEmail(string email) {
             const string sql = @"
-                SELECT TOP 1 id, name, login, password, email
+                SELECT TOP 1 id, name, login, password, email, googleSub
                 FROM Users
                 WHERE LOWER(email) = LOWER(@email) AND active = 1;
             ";
@@ -171,6 +171,46 @@ namespace LibraryAPI.Repositories {
             ";
 
             _conn.Execute(sql, new { userId, passwordHashSha256 });
+        }
+
+        public UsersDTO? GetByGoogleSub(string googleSub) {
+            const string sql = @"
+                SELECT TOP 1
+                    id, name, login, password, email, role, observations, active, register, edit, profile, googleSub
+                FROM Users
+                WHERE googleSub = @googleSub AND active = 1;
+            ";
+
+            return _conn.QueryFirstOrDefault<UsersDTO>(sql, new { googleSub });
+        }
+
+        public void SetGoogleSub(int userId, string googleSub) {
+            const string sql = @"
+                UPDATE Users
+                SET
+                    googleSub = @googleSub,
+                    edit = GETDATE()
+                WHERE id = @userId;
+            ";
+
+            _conn.Execute(sql, new { userId, googleSub });
+        }
+
+        public UsersDTO CreateGoogleUser(UsersDTO dto) {
+            const string sql = @"
+                INSERT INTO Users (
+                    name, login, password, email, role, observations, active, register, profile, googleSub
+                )
+                VALUES (
+                    @name, @login, @password, @email, @role, @observations, @active, GETDATE(), @profile, @googleSub
+                );
+
+                SELECT CAST(SCOPE_IDENTITY() AS INT);
+            ";
+
+            var newId = _conn.ExecuteScalar<int>(sql, dto);
+
+            return GetById(newId)!;
         }
     }
 }

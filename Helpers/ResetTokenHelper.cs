@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Cryptography;
 
-namespace LibraryAPI.Helpers {
+namespace AutocenterAPI.Helpers {
     public class ResetTokenHelper {
         public static string GenerateToken() {
             var bytes = RandomNumberGenerator.GetBytes(32);

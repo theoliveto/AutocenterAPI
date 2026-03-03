@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace LibraryAPI.Data.Migrations {
+namespace AutocenterAPI.Data.Migrations {
 
     [Migration(2026021301)]
     public class _2026021301_CreateUsers : Migration {

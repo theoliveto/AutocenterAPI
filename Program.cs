@@ -1,8 +1,8 @@
 using FluentMigrator.Runner;
-using LibraryAPI.Data;
-using LibraryAPI.Interfaces;
-using LibraryAPI.Repositories;
-using LibraryAPI.Services;
+using AutocenterAPI.Data;
+using AutocenterAPI.Interfaces;
+using AutocenterAPI.Repositories;
+using AutocenterAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -67,6 +67,11 @@ builder.Services.AddAuthentication("Bearer")
 });
 
 var app = builder.Build();
+
+app.Use(async (ctx, next) => {
+    ctx.Response.Headers["Cross-Origin-Opener-Policy"] = "same-origin-allow-popups";
+    await next();
+});
 
 if (app.Environment.IsDevelopment()) {
     using var scope = app.Services.CreateScope();

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace LibraryAPI.Helpers {
+namespace AutocenterAPI.Helpers {
     public static class HashHelper {
         public static string? CreateSha256(string? text) {
             if (text is null) { 

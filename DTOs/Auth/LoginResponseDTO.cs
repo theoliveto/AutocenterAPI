@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.DTOs.Auth {
+﻿namespace AutocenterAPI.DTOs.Auth {
     public class LoginResponseDTO {
         public string Token { get; set; } = string.Empty;
         public DateTime ExpiresIn { get; set; }

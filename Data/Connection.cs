@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace LibraryAPI.Data {
+namespace AutocenterAPI.Data {
     public class Connection {
         private readonly IConfiguration _configuration;
 
